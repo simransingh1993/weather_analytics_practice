@@ -55,6 +55,8 @@ def fetch_historical_day(target_date):
 
 def upload_to_bq(rows):
     client = bigquery.Client.from_service_account_json(KEY_PATH)
+    
+    # We keep the schema to ensure BigQuery maps the columns correctly
     job_config = bigquery.LoadJobConfig(
         schema=[
             bigquery.SchemaField("date", "DATE"),
@@ -74,9 +76,24 @@ def upload_to_bq(rows):
         write_disposition="WRITE_APPEND",
     )
     
-    load_job = client.load_table_from_json(rows, TABLE_FULL_ID, job_config=job_config)
-    load_job.result()
-    print(f"🚀 Successfully uploaded {len(rows)} rows with full metrics.")
+    print(f"Sending {len(rows)} rows to BigQuery...")
+    
+    try:
+        # 1. Start the load job
+        load_job = client.load_table_from_json(rows, TABLE_FULL_ID, job_config=job_config)
+        
+        # 2. Wait for the job to complete (this will raise an exception if it fails)
+        load_job.result() 
+        
+        # 3. Get the ACTUAL count of rows inserted from the job metadata
+        print(f"🚀 SUCCESS: BigQuery confirmed {load_job.output_rows} new rows loaded.")
+        
+    except Exception as e:
+        print(f"❌ BIGQUERY UPLOAD FAILED: {e}")
+        # This loop prints specific reasons (like schema mismatch or quota issues)
+        if hasattr(e, 'errors'):
+            for error in e.errors:
+                print(f"Error detail: {error['message']}")
 
 def get_start_date(client):
     """Checks BigQuery for the oldest date to determine where to start backfilling."""
@@ -111,7 +128,7 @@ if __name__ == "__main__":
         end_goal = datetime(1993, 1, 1, tzinfo=timezone.utc)
         
         # 3. Define how many days to fetch in THIS run (e.g., 900 days for the slow burn)
-        days_to_fetch = 900 
+        days_to_fetch = 800 
         
         all_rows = []
         print(f"Starting backfill from {target_date.date()} going backwards...")
