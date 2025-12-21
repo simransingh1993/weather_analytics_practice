@@ -1,0 +1,30 @@
+name: Amsterdam Historical Backfill
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs every night at midnight UTC
+  workflow_dispatch: # This adds a "Run" button so you can trigger it manually
+
+jobs:
+  run-ingestion:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          pip install requests google-cloud-bigquery pandas pyarrow db-dtypes python-dotenv
+
+      - name: Run Backfill Script
+        env:
+          OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
+        run: |
+          # Recreate the JSON key file from the GitHub Secret
+          echo '${{ secrets.GCP_SA_KEY }}' > weather_analytics_key.json
+          python ingest_weather.py
