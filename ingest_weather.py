@@ -14,7 +14,7 @@ load_dotenv()
 API_KEY = os.getenv("OPENWEATHER_API_KEY")
 PROJECT_ID = "calm-suprstate-481612-s3"
 DATASET_ID = "raw_weather_data"
-TABLE_ID = "amsterdam_historical_weather"
+TABLE_ID = "amsterdam_historical_weather_2"
 TABLE_FULL_ID = f"{PROJECT_ID}.{DATASET_ID}.{TABLE_ID}"
 KEY_PATH = "weather_analytics_key.json"
 
@@ -128,7 +128,7 @@ if __name__ == "__main__":
         end_goal = datetime(1993, 1, 1, tzinfo=timezone.utc)
         
         # 3. Define how many days to fetch in THIS run (e.g., 900 days for the slow burn)
-        days_to_fetch = 10 
+        days_to_fetch = 100 
         
         all_rows = []
         print(f"Starting backfill from {target_date.date()} going backwards...")
