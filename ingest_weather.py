@@ -128,7 +128,7 @@ if __name__ == "__main__":
         end_goal = datetime(1993, 1, 1, tzinfo=timezone.utc)
         
         # 3. Define how many days to fetch in THIS run (e.g., 900 days for the slow burn)
-        days_to_fetch = 800 
+        days_to_fetch = 10 
         
         all_rows = []
         print(f"Starting backfill from {target_date.date()} going backwards...")
