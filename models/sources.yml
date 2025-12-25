@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: raw_weather_source
+    database: calm-suprstate-481612-s3
+    schema: raw_weather_data
+    tables:
+      - name: amsterdam_historical_weather_2
