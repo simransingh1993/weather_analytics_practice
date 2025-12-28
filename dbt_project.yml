@@ -41,13 +41,18 @@ models:
     staging:
       +materialized: view
       +schema: staging  # Creates 'staging' dataset in BigQuery
+      +location: EU  # Or correct location
+
     
     # Intermediate models - go to intermediate dataset
     intermediate:
       +materialized: view
       +schema: intermediate  # Creates 'intermediate' dataset in BigQuery
+      +location: EU  # Or correct location
+
     
     # Mart models - go to mart dataset
     mart:
       +materialized: view
       +schema: mart  # Creates 'mart' dataset in BigQuery
+      +location: EU  # Or correct location
