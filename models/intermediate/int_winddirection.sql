@@ -17,3 +17,4 @@ SELECT
     END AS wind_direction_category
 
 FROM {{ ref('stg_weather_data') }}
+
