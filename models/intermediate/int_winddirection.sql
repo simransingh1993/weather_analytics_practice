@@ -1,6 +1,6 @@
-WITH staging AS (
+/*WITH staging AS (
     SELECT * FROM {{ ref('stg_weather_data') }}
-)
+)*/
 
 SELECT
     *
@@ -16,4 +16,4 @@ SELECT
     ELSE 'unknown'
     END AS wind_direction_category
 
-FROM staging
+FROM {{ ref('stg_weather_data') }}
