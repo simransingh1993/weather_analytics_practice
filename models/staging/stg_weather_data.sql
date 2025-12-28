@@ -1,5 +1,5 @@
 WITH raw_data AS (
-    SELECT * FROM {{ source('raw_weather_source', 'amsterdam_historical_weather_2') }}
+    SELECT * FROM {{ source('raw_weather_data', 'amsterdam_historical_weather_2') }}
 ),
 
 final AS (
