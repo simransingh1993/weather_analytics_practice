@@ -4,5 +4,6 @@ sources:
   - name: raw_weather_source
     database: calm-suprstate-481612-s3
     schema: raw_weather_data
+    location: EU
     tables:
       - name: amsterdam_historical_weather_2
