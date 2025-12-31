@@ -15,6 +15,7 @@ SELECT
     WHEN wind_direction_in_degrees BETWEEN 292.5 AND 337.5 THEN 'northwest'
     ELSE 'unknown'
     END AS wind_direction_category
+    
 
 FROM {{ ref('stg_weather_data') }}
 
