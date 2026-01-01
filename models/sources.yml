@@ -8,3 +8,10 @@ sources:
       location: 'EU'  
     tables:
       - name: amsterdam_historical_weather_2
+        description: "raw weather data from openweather API"
+        columns:
+          - name: date
+            description: date of weather data
+            tests:
+              - not_null
+              - unique 
