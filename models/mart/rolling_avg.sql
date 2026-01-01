@@ -21,4 +21,4 @@ SELECT
 
 
 
-FROM {{ ref('int_winddirection') }}
+FROM {{ ref('int_winddirection_season') }}
