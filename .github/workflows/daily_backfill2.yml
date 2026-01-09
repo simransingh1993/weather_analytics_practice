@@ -1,0 +1,29 @@
+name: Amsterdam Daily Weather Ingestion
+
+on:
+  schedule:
+    - cron: '0 6 * * *' # Runs at 06:00 UTC daily to ensure 'yesterday' is fully available
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  run-ingestion:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          pip install requests google-cloud-bigquery pandas pyarrow db-dtypes python-dotenv
+
+      - name: Run Ingestion Script
+        env:
+          OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
+        run: |
+          echo '${{ secrets.GCP_SA_KEY }}' > weather_analytics_key.json
+          python ingest_weather_2.py
